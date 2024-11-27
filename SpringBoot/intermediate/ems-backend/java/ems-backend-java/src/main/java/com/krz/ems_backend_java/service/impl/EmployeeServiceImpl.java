@@ -2,10 +2,15 @@ package com.krz.ems_backend_java.service.impl;
 
 import com.krz.ems_backend_java.dto.EmployeeDto;
 import com.krz.ems_backend_java.entity.Employee;
+import com.krz.ems_backend_java.exception.ResourceNotFoundException;
 import com.krz.ems_backend_java.mapper.EmployeeMapper;
 import com.krz.ems_backend_java.repository.IEmployeeRepository;
 import com.krz.ems_backend_java.service.IEmployeeService;
 import lombok.AllArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,5 +25,38 @@ public class EmployeeServiceImpl implements IEmployeeService {
         Employee savedEmployee = employeeRepository.save(employee);
 
         return EmployeeMapper.mapEmployeeToEmployeeDto(savedEmployee);
+    }
+
+    @Override
+    public EmployeeDto getAnEmployee(Long id) {
+        Employee foundEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with given id: " + id));
+
+        return EmployeeMapper.mapEmployeeToEmployeeDto(foundEmployee);
+    }
+
+    @Override
+    public EmployeeDto updateAnEmployee(Long id, EmployeeDto employeeDto) {
+        Employee foundEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with given id: " + id));
+        foundEmployee.setFullName(employeeDto.getFullName());
+        foundEmployee.setEmail(employeeDto.getEmail());
+
+        Employee updatedEmployee = employeeRepository.save(foundEmployee);
+
+        return EmployeeMapper.mapEmployeeToEmployeeDto(updatedEmployee);
+    }
+
+    @Override
+    public void deleteAnEmployeeById(Long id) {
+        employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<EmployeeDto> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        return employees.stream().map((employee) -> EmployeeMapper.mapEmployeeToEmployeeDto(employee))
+                .collect(Collectors.toList());
     }
 }
