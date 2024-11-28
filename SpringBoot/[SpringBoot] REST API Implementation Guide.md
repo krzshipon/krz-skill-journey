@@ -171,3 +171,66 @@ public class ResourceNotFoundException extends RuntimeException {
   "email": "john.doe@example.com"
 }
 ```
+## **Step-12: Custom Error Handling**
+
+- Add a generic exception model class.
+- Add an exception class for each exception type.
+- Handle them from a Global exception handler.
+
+```
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ErrorDetails {
+ private LocalDateTime timestamp;
+ private int status;
+ private String message;
+ private String path;
+}
+```
+
+```
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
+ public ResourceNotFoundException(String message) {
+   super(message);
+ }
+}
+```
+
+```
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+
+ //Generic exception handler
+ @ExceptionHandler(Exception.class)
+ public ResponseEntity<?> handleGenericException(Exception ex, WebRequest request) {
+   ErrorDetails errorDetails = new ErrorDetails(
+       LocalDateTime.now(),
+       HttpStatus.INTERNAL_SERVER_ERROR.value(),
+       ex.getMessage(),
+       request.getDescription(false));
+
+
+   return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+ }
+
+
+ // Handle ResourceNotFoundException globally
+ @ExceptionHandler(ResourceNotFoundException.class)
+ public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+   // Create the error response with timestamp
+   ErrorDetails errorDetails = new ErrorDetails(
+       LocalDateTime.now(),
+       HttpStatus.NOT_FOUND.value(),
+       ex.getMessage(),
+       request.getDescription(false));
+
+
+   // Return the error response with additional message
+   return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+ }
+}
+```
