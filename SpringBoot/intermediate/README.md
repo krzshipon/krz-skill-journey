@@ -7,4 +7,4 @@ In this section, you will find more advanced projects that involve building real
 
 | Project Name              | Description                |   Topics Covered                  | Folder/Project Link              |
 |---------------------------|----------------------------|-----------------------------------|----------------------------------|
-| **ems-backend** | Employee managemen system.  | Spring Data JPA, Hibernate, MySQL, Custom Exception Handling | [ems-backend](./SpringBoot/Intermediate/ems-backend) |
+| **ems-backend** | Employee managemen system.  | Spring Data JPA, Hibernate, MySQL, Custom Exception Handling | [ems-backend](./ems-backend) |
