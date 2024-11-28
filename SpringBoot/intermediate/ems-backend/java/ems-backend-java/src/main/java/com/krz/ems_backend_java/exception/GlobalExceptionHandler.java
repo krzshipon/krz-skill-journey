@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+  //Generic exception handler
   @ExceptionHandler(Exception.class)
   public ResponseEntity<?> handleGenericException(Exception ex, WebRequest request) {
     ErrorDetails errorDetails = new ErrorDetails(
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
 
     return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
   }
-  
+
   // Handle ResourceNotFoundException globally
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
