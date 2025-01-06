@@ -1,5 +1,21 @@
 
-# Prompting Frameworks for Developers
+# Prompting Engineering for Developers
+**Prompt engineering** is a set of techniques to get better results when prompting.
+
+- **Prompts**: Allow us to get useful responses from GenAI
+- **Responses**: Change depending on the prompt
+
+## Terminologies in prompt engineering
+-  **Task**: What you want the AI to do (e.g., write code, explain something, or solve a problem).
+-  **Context**:
+Background information or details the AI needs to understand the task better.
+- **Examples**: Sample inputs and outputs to show the AI how to perform the task correctly.
+- **Format**: How you want the AI to present its answer (e.g., a list, a table, or a paragraph).
+
+#### Note:
+- **Zero-shot prompting** relies on the AI model performing the task without fine-tuning or examples
+- **Few-shot prompting** gives one or more examples how to complete the task, ensuring the AI responds as needed
+- Adding more detail produces better outputs
 
 ## What is a Prompting Framework?
 A prompting framework is a structured approach to crafting prompts for AI models, ensuring clarity, specificity, and effectiveness in generating desired outputs. 
